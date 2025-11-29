@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🐶♥アドベントカレンダー</title>
+    <title>アドベントカレンダー</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐶</text></svg>">
     <!-- Tailwind CSS CDNを読み込みます -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- InterとYomogiフォントを読み込みます -->
@@ -45,20 +46,9 @@
                 transform: none !important; /* ホバーによる移動を無効化 */
             }
 
-                .day-card[data-locked="true"]:hover {
-                    box-shadow: none;
-                    transform: none;
-                }
-
-        /* 12月25日の特別な装飾 */
-        .day-25 {
-            background: linear-gradient(145deg, #fefce8, #fff); /* クリーム色のグラデーション */
-            border: 5px solid #FBBF24; /* 豪華な金色の縁取り */
-            box-shadow: 0 20px 30px -5px rgba(251, 191, 36, 0.7);
-        }
-
-            .day-25:hover {
-                transform: scale(1.05) !important;
+            .day-card[data-locked="true"]:hover {
+                box-shadow: none;
+                transform: none;
             }
 
         /* === モーダル（手紙が飛び出すフリップ）アニメーションのためのカスタムスタイル === */
@@ -132,7 +122,7 @@
             <div class="flex justify-center items-center h-16">
                 <!-- ロゴ/サイト名 (金色) - モバイルでは文字サイズを少し小さく(text-xl)調整 -->
                 <h1 class="text-xl md:text-3xl font-extrabold text-amber-400 text-gold-shadow p-2 transition font-cute-japanese whitespace-nowrap">
-                    🎄 アドベントマジック カレンダー 2024 🎁
+                    🎄 勝手に 🎁
                 </h1>
             </div>
         </div>
@@ -143,10 +133,10 @@
         <section id="hero" class="bg-gradient-to-br from-red-700 to-red-900 text-white py-12 md:py-16 shadow-inner">
             <div class="max-w-4xl mx-auto text-center px-4">
                 <h2 class="text-3xl sm:text-4xl font-extrabold mb-4 leading-tight text-amber-400 text-gold-shadow">
-                    毎日ひとつ、サプライズの扉を開けましょう
+                    アドベントカレンダー<br>★2025★
                 </h2>
-                <p class="text-lg mb-0 opacity-90">
-                    下の25枚のカードは、12月1日から25日までの扉です。クリックして、今日届くメッセージやデモをご覧ください。
+                <p class="text-lg mb-0 opacity-90 font-cute-japanese">
+                🐶♥の話、無作為に詰めてます。
                 </p>
                 <!-- **デモ用日付表示 (このメッセージは公開時には消すことができます)** -->
                 <div id="date-info" class="mt-4 text-sm font-bold text-amber-200"></div>
@@ -201,7 +191,7 @@
                 <hr class="border-red-300 mb-4">
 
                 <!-- 日付とタイトル（物語の最後に表示） -->
-                <h3 id="modal-footer-title" class="text-xl font-bold text-red-800 text-center flex-shrink-0"></h3>
+                <h3 id="modal-footer-title" class="text-m font-bold text-red-800 text-center flex-shrink-0"></h3>
             </div>
         </div>
     </div>
@@ -221,18 +211,55 @@
         const ADVENT_DATA = [
             {
                 day: 1,
-                title: '12月1日：小さな雪うさぎの冒険',
+                title: '無知なままで',
                 imageUrl: 'https://placehold.co/800x200/409CFF/FFFFFF?text=Day+1+Header+Image',
                 imageStyle: 'h-32', // Tailwindクラスで高さを指定
-                story: `❄️ 12月1日: 小さな雪うさぎの冒険 🐇
-【上の画像はこの物語のヘッダーイラストです。】
-雪が降り始めた夜、森の入り口で小さな白い雪うさぎが目を覚ましました。
-うさぎは知っています。クリスマスの朝が来るまでに、遠くの街にある「希望の木」に雪の結晶を届けなければならないことを。
-これは、勇気ある小さな旅の物語です。
+                story: `
+「パティさん、ダンスの相手は決まったんですか？」
+「ん？なんのこと？」
 
-物語は続きます。雪うさぎはまず、凍った川を渡らなければなりませんでした。川には古い木の橋がかかっていますが、橋の上は氷で滑りやすくなっています。うさぎは慎重に一歩一歩踏み出し、冷たい風に耐えながら進みます。橋を渡りきると、次に現れたのは、暗くて深い「ささやきの森」でした。森の木々は古く、枝が絡み合い、昼間でも光が届きません。うさぎは心細くなりましたが、持っている雪の結晶がかすかに光り、勇気づけてくれました。
+「今週末にイベントあるじゃないですか？JTS主催の。」
+　パティさんも参加するって救急隊の同期に聞きましたけど。
+「あー、イベント……。うん、申し込みしたかも～。なんあれ、相手とか必要なの？」
+「そりゃ、ダンスパーティですからね。」
+　パティはJTSといえば集団での踊りが有名なため、そのダンスを見せてもらうようなイベントだと思い、面白そうだと申し込んだことを思い出した。
 
-森を抜けると、広大な雪原に出ました。雪原はどこまでも真っ白で、目印が何もありません。うさぎは立ち止まり、空を見上げました。北極星が輝いています。うさぎは北極星を目指して、再び歩き始めました。どれほど歩いたでしょうか、遠くに暖かな光が見えてきました。それが、街の光です。うさぎは最後の力を振り絞り、希望の木へと向かいました。`
+「社交ダンス、踊ったことないの？」
+「しゃこうだんす？」
+「男女でステップを踏んでムードを楽しむんですよ。」
+
+　ほら、立って。ジャックスが急かすように、少し嬉しそうにパティをに手を差し出した。
+　U FOR Uのホールが二人が手を取り合った途端に、カフェからダンスホールのように変化した。木の温もりに包まれて、暖炉がぱちぱちとリズムを刻む。ゆったりとしたOh,Jesus!のBGMを聞きながら、パティはジャックスに導かれるままホールの真ん中に進む。
+
+　身体が密着するのもかまわず、パティは新しいことをジャックスが教えてくれるのだと嬉しそうに顔をほころばす。ジャックスは引き締まった腰に手を当て、もう片方の手を絡ませる。
+「じゃあ、練習するよ。はい、いち・に・さん、いち・に・さん……」
+　二人のU FOR Uの制服はもとから一つの絵画であったかのように、身体の重なりを自然なものに演出していた。
+
+「いち。に、さん。」
+　パティが小さくつぶやきながら、頭のつむじがわずかに揺れる。そして綺麗にジャックスの革靴を踏み、バランスを崩す。それを少し腕に力を入れたジャックスが支えなおす。
+「あっ、ブラブラごめん。」
+「いいですよ、こういうのは練習あるのみですからね。」
+
+　しばらくすると飲み込みの速さが幸いし、軽やかにステップを刻むようになった。ジャックスは彼女がイベントに参加すれば、注目の的になるだろうと思うほどに。
+　何度もパティの華奢なつま先が自分の革靴の上に触れる。その軽い衝動が伝わる度、ジャックスの心臓が小さく跳ねた。その回数が少なくなるのを寂しく感じた。
+
+　どれほどの時間踊っていただろうか、パティの一言でジャックスはハッとする。
+「ブラブラー、もう無理だよぉ。」
+　するりとジャックスのリードから抜け出し、パティは近くのソファに座り込む。ジャックスはその様子に苦笑しながら隣に腰掛け、パティの脚を労わるための治療道具と飲み物を手渡した。
+「ありがとう。練習も、付き合ってくれて。」
+「いいえ、ステップの飲み込みがとても早くて、ジャックスも時間を忘れるくらい楽しかったです。」
+
+　ぐでんと足を投げ出すパティに、再度声をかける。
+「それで、誰と行こうと思ってたんですか？」
+「えー、つんつんと行こうかなって思ってたけど、こういう感じならこみこみがいいのかなぁ。」
+　スマホを手に連絡先を吟味しているであろう彼女を横目に、ジャックスは少し胸に詰まるものがある気がした。
+
+「でもね、ブラブラがチケット持ってないんだったら、今みたいに一緒に踊れたら楽しいだろうなと思って。」
+　チケット持ったもの同士が行っても問題はないのだが、自分が教えたダンスを他の男と踊るであろう彼女を見るのも面白い気がした。
+
+「ジャックスはいつでも歓迎ですけどね。」
+　満足げを装いながら、胸の痞えは未だ取れない。
+`
             },
             {
                 day: 2,
@@ -351,7 +378,7 @@
 
                 // data-image-urlとdata-image-styleはデータ構造からそのまま取得
                 const imageStyleAttr = data.imageStyle ? `data-image-style="${data.imageStyle}"` : '';
-                const specialClasses = day === 25 ? 'day-25 relative overflow-hidden' : 'border-b-4 border-red-300';
+                const specialClasses = day === 'border-b-4 border-red-300';
 
                 cardsHtml += `
                         <div class="day-card bg-white p-4 sm:p-6 rounded-xl shadow-xl ${specialClasses} ${lockClasses}"
@@ -360,22 +387,14 @@
                             data-image-url="${data.imageUrl}"
                             ${imageStyleAttr}
                             ${lockedAttr}>
-                            ${day === 25 ?
-                        // Day 25 のキラキラエフェクト
-                        `<div class="absolute inset-0 bg-[url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><circle fill="rgba(255,255,255,0.2)" cx="5" cy="5" r="1.5"/></svg>')] opacity-50"></div>`
-                        : ''
-                    }
+                            
                             <h3 class="text-4xl font-extrabold text-red-800 text-center mb-2 leading-none z-10">${day}</h3>
-                            <p class="text-xs ${day === 25 ? 'font-bold text-red-700' : 'text-gray-500'} text-center mb-4 z-10">${day === 25 ? 'GRAND OPEN!' : 'Click to Open'}</p>
+                            <p class="text-xs ${'text-gray-500'} text-center mb-4 z-10">'Click to Open'</p>
                             <!-- アイコン (飾り) -->
                             <div class="flex justify-center text-amber-400 z-10">
-                                ${day === 25 ?
-                        // Day 25 の星アイコン
-                        `<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.01 8.73c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>`
-                        :
-                        // 通常のアイコン
-                        `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
-                    }
+                             // 通常のアイコン
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    
                             </div>
                         </div>
                     `;
