@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🐶♥アドベントカレンダー</title>
+    <title>アドベントカレンダー</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐶</text></svg>">
     <!-- Tailwind CSS CDNを読み込みます -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- InterとYomogiフォントを読み込みます -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Yomogi&display=swap');
-        
+
         body {
             font-family: 'Inter', sans-serif;
             /* 背景を雪が積もったような明るいグレーに */
-            background-color: #f0f4f8; 
+            background-color: #f0f4f8;
         }
 
         /* タイトル専用の可愛い日本語フォントスタイル */
@@ -22,7 +23,7 @@
             letter-spacing: 0.1em; /* 少し文字間を空けて可愛らしさを強調 */
             font-weight: 400; /* Yomogiは太字にしすぎない方が可愛らしい */
         }
-        
+
         /* 金色のテキストに影をつけて、きらめきを表現 */
         .text-gold-shadow {
             text-shadow: 1px 1px 3px rgba(255, 215, 0, 0.5);
@@ -31,6 +32,7 @@
         .day-card {
             transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
         }
+
         .day-card:hover {
             box-shadow: 0 20px 25px -5px rgba(239, 68, 68, 0.3), 0 10px 10px -5px rgba(251, 191, 36, 0.2);
         }
@@ -43,33 +45,26 @@
             box-shadow: none;
             transform: none !important; /* ホバーによる移動を無効化 */
         }
+
         .day-card[data-locked="true"]:hover {
             box-shadow: none;
             transform: none;
         }
-        /* 12月25日の特別な装飾 */
-        .day-25 {
-            background: linear-gradient(145deg, #fefce8, #fff); /* クリーム色のグラデーション */
-            border: 5px solid #FBBF24; /* 豪華な金色の縁取り */
-            box-shadow: 0 20px 30px -5px rgba(251, 191, 36, 0.7);
-        }
-        .day-25:hover {
-             transform: scale(1.05) !important;
-        }
-        
+
         /* === モーダル（手紙が飛び出すフリップ）アニメーションのためのカスタムスタイル === */
         /* 1. モーダルオーバーレイに奥行きを設定 (3D効果を有効化) */
         #feature-detail-modal {
-            perspective: 1000px; 
+            perspective: 1000px;
         }
 
         /* 2. モーダルコンテンツのアニメーション設定 */
         .modal-content-box {
             /* 3D変換、スケール、不透明度にトランジションを設定。飛び出し感を出すためにバネのようなカーブを使用 */
-             max-height: calc(100vh - 40px); /* 画面全体の高さから上下の余白(20px*2)を引く */
-            overflow-y: auto; /* コンテンツボックス全体をスクロール可能にする */
-            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.4s ease-out; 
-            transform-style: preserve-3d; 
+            max-height: calc(100vh - 40px); /* 画面全体の高さから上下の余白(20px*2)を引く */
+            display: flex; /* 【追加】Flexboxレイアウト */
+            flex-direction: column; /* 【追加】縦並び */
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.4s ease-out;
+            transform-style: preserve-3d;
         }
 
         /* 3. モーダルが開く前の状態 (縦方向にフリップ + 小さく、透明) */
@@ -83,7 +78,7 @@
             transform: rotateX(0deg) scale(1.0); /* ゼロに戻って正面を向く */
         }
         /* === End of Custom Modal Style === */
-        
+
         /* === ロックメッセージボックスのスタイル === */
         #lock-message-box {
             position: fixed;
@@ -101,22 +96,34 @@
             opacity: 0;
             transition: opacity 0.3s ease-in-out, top 0.3s ease-in-out;
         }
+
         .show-message {
             opacity: 1 !important;
             top: 80px !important;
         }
+
+        /* === NEW: 画像サイズのカスタムスタイル === */
+        /* Tailwindのクラスがない特定の高さを指定するためのCSS */
+        .image-custom-h-400 {
+            height: 400px;
+        }
+
+        .image-custom-h-200 {
+            height: 200px;
+        }
+
     </style>
     <!-- jQuery CDNを読み込みます -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
-<body class="text-gray-800">
+<body class="text-gray-800 overflow-x-hidden">
 
     <!-- ヘッダー (タイトルのみ) -->
     <header class="bg-red-800 shadow-xl fixed w-full z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-center items-center h-16">
                 <!-- ロゴ/サイト名 (金色) - ここに日本語フォントを適用 -->
-                <h1 class="text-3xl font-extrabold text-amber-400 text-gold-shadow p-2 transition font-cute-japanese">
+                <h1 class="text-xl md:text-3xl font-extrabold text-amber-400 text-gold-shadow p-2 transition font-cute-japanese whitespace-nowrap">
                     🎄 勝手に 🎁
                 </h1>
             </div>
@@ -128,7 +135,7 @@
         <section id="hero" class="bg-gradient-to-br from-red-700 to-red-900 text-white py-12 md:py-16 shadow-inner">
             <div class="max-w-4xl mx-auto text-center px-4">
                 <h2 class="text-3xl sm:text-4xl font-extrabold mb-4 leading-tight text-amber-400 text-gold-shadow font-cute-japanese">
-                    アドベントカレンダー！
+                    アドベントカレンダー<br>★2025★
                 </h2>
                 <p class="text-lg mb-0 opacity-90 font-cute-japanese">
                     🐶♥の話、無作為に詰めてます。
@@ -142,32 +149,69 @@
                 <!-- レスポンシブなグリッドレイアウト: モバイル3列 -> タブレット4列 -> デスクトップ5列 -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
 
-                    <!-- Day 1 - 24 (JavaScriptで動的に生成) -->
+                    <!-- Day 1 - 25 (JavaScriptで動的に生成) -->
                     <script>
-                        // JavaScriptを使用して24枚のカードのデータとHTMLを生成 (コードを簡潔に保つため)
+                        // ==============================================================
+                        // 【重要】日付制限ロジック
+                        // ==============================================================
+                        const today = new Date();
+                        const currentMonth = today.getMonth() + 1; // 1月が0なので+1
+
+                        // 12月の場合のみ今日の日付を使用。それ以外の月は0日（全てロック）
+                        let currentDay = (currentMonth === 12) ? today.getDate() : 0;
+
+                        // デモ/テスト用: 動作確認のため、常に12月10日として扱う（1日～10日が開けられる）
+                        // 実際に12月になったら下の行をコメントアウトしてください。
+                        currentDay = 10;
+
+                        // デモ用日付を画面に表示
+                        document.addEventListener('DOMContentLoaded', () => {
+                            const dateInfo = document.getElementById('date-info');
+                            if (currentDay > 0) {
+                                dateInfo.textContent = `[デモ中: 12月${currentDay}日として動作しています]`;
+                            } else {
+                                dateInfo.textContent = `[デモ中: 12月ではないため全てロックされています]`;
+                            }
+                        });
+                        // ==============================================================
+
                         const daysData = [];
                         const colors = [
-                            {bg: '991B1B', text: 'White', title: 'Warm Light'}, 
-                            {bg: '065F46', text: 'Yellow', title: 'Holly Berry'}, 
-                            {bg: 'FBBF24', text: 'Black', title: 'Gold Star'}, 
-                            {bg: '4F46E5', text: 'White', title: 'Midnight Blue'}
+                            { bg: '991B1B', text: 'White', title: 'Warm Light' },
+                            { bg: '065F46', text: 'Yellow', title: 'Holly Berry' },
+                            { bg: 'FBBF24', text: 'Black', title: 'Gold Star' },
+                            { bg: '4F46E5', text: 'White', title: 'Midnight Blue' }
                         ];
-                        
-                        for (let i = 1; i <= 24; i++) {
+
+                        for (let i = 1; i <= 25; i++) {
                             const colorSet = colors[(i - 1) % colors.length];
                             // 注意: Day 1-5はタイトルと画像のプレースホルダーのみをここで設定します。
                             // 物語の本文は、後述の隠しセクション（#story-content）から読み込まれます。
                             const imageUrl = `https://placehold.co/1200x400/${colorSet.bg}/${colorSet.text}?text=Day+${i}`;
-                            
+
                             daysData.push({
                                 day: i,
                                 title: `12月${i}日：${colorSet.title}`,
-                                imageUrl: imageUrl
+                                imageUrl: imageUrl,
+                                // NEW: カスタム画像を定義 (Day 1 のみ具体的な画像とサイズを指定)
+                                imageStyle: i === 1 ? 'https://placehold.co/800x200/409CFF/FFFFFF?text=Day+1+Header+Image|h-32' : null
+                                // '|' の前がURL、後が画像に適用するTailwindクラス（またはカスタムCSSクラス）
+                                // 例: 'https://placehold.co/800x200/409CFF/FFFFFF?text=Header|image-custom-h-200'
                             });
                         }
 
                         let cardsHtml = '';
                         daysData.forEach(data => {
+                            // 日付制限のチェック
+                            const isLocked = data.day > currentDay;
+
+                            // ロック状態に応じてクラスと属性を設定
+                            const lockClasses = isLocked ? 'opacity-50 cursor-not-allowed grayscale shadow-none transform-none' : 'hover:shadow-red-400/50 transition duration-300 transform hover:-translate-y-1';
+                            const lockedAttr = isLocked ? 'data-locked="true"' : 'data-locked="false"';
+
+                            // NEW: imageStyle 属性を追加
+                            const imageStyleAttr = data.imageStyle ? `data-image-style="${data.imageStyle}"` : '';
+
                             cardsHtml += `
                                 <div class="day-card bg-white p-4 sm:p-6 rounded-xl shadow-xl hover:shadow-red-400/50 transition duration-300 transform hover:-translate-y-1 cursor-pointer border-b-4 border-red-300"
                                     data-day="${data.day}"
@@ -184,22 +228,6 @@
                         });
                         document.write(cardsHtml);
                     </script>
-
-                    <!-- Day 25: Special Card -->
-                    <div class="day-card day-25 p-4 sm:p-6 rounded-xl shadow-2xl transition duration-300 transform hover:-translate-y-2 cursor-pointer relative overflow-hidden"
-                        data-day="25"
-                        data-title="🎉 12月25日：メリークリスマス！特別な物語"
-                        data-image-url="https://placehold.co/400x400/FFD700/841021?text=MERRY+XMAS">
-                        <!-- キラキラエフェクト -->
-                        <div class="absolute inset-0 bg-[url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><circle fill="rgba(255,255,255,0.2)" cx="5" cy="5" r="1.5"/></svg></div>
-                        
-                        <h3 class="text-5xl font-extrabold text-red-900 text-center mb-2 leading-none">25</h3>
-                        <p class="text-xs font-bold text-red-700 text-center mb-4">GRAND OPEN!</p>
-                        <!-- アイコン (星) -->
-                        <div class="flex justify-center text-amber-500">
-                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.01 8.73c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -211,130 +239,130 @@
             &copy; 2024 Advent Magic. Merry Christmas!
         </div>
     </footer>
-    
+
     <!-- ========================================================================================= -->
     <!-- === 日ごとの物語コンテンツ（管理用） === -->
     <!-- このセクションは 'hidden' クラスによって画面には表示されません。 -->
     <!-- ここに日ごとの物語を書き込むことで、コード本体を触らずにコンテンツを管理できます。 -->
     <!-- ========================================================================================= -->
     <section id="story-content" class="hidden">
-        <!-- Day 1 の物語 -->
+        <h3 data-modal-title="12月1日：社交ダンスの予感"></h3>
         <div id="story-day-1">
-「パティさん、ダンスの相手は決まったんですか？」
-「ん？なんのこと？」
+            「パティさん、ダンスの相手は決まったんですか？」
+            「ん？なんのこと？」
 
-「今週末にイベントあるじゃないですか？JTS主催の。」
-　パティさんも参加するって救急隊の同期に聞きましたけど。
-「あー、イベント……。うん、申し込みしたかも～。なんあれ、相手とか必要なの？」
-「そりゃ、ダンスパーティですからね。」
-　パティはJTSといえば集団での踊りが有名なため、そのダンスを見せてもらうようなイベントだと思い、面白そうだと申し込んだことを思い出した。
+            「今週末にイベントあるじゃないですか？JTS主催の。」
+            パティさんも参加するって救急隊の同期に聞きましたけど。
+            「あー、イベント……。うん、申し込みしたかも～。なんあれ、相手とか必要なの？」
+            「そりゃ、ダンスパーティですからね。」
+            パティはJTSといえば集団での踊りが有名なため、そのダンスを見せてもらうようなイベントだと思い、面白そうだと申し込んだことを思い出した。
 
-「社交ダンス、踊ったことないの？」
-「しゃこうだんす？」
-「男女でステップを踏んでムードを楽しむんですよ。」
+            「社交ダンス、踊ったことないの？」
+            「しゃこうだんす？」
+            「男女でステップを踏んでムードを楽しむんですよ。」
 
-　ほら、立って。ジャックスが急かすように、少し嬉しそうにパティをに手を差し出した。
-　U FOR Uのホールが二人が手を取り合った途端に、カフェからダンスホールのように変化した。木の温もりに包まれて、暖炉がぱちぱちとリズムを刻む。ゆったりとしたOh,Jesus!のBGMを聞きながら、パティはジャックスに導かれるままホールの真ん中に進む。
+            ほら、立って。ジャックスが急かすように、少し嬉しそうにパティをに手を差し出した。
+            U FOR Uのホールが二人が手を取り合った途端に、カフェからダンスホールのように変化した。木の温もりに包まれて、暖炉がぱちぱちとリズムを刻む。ゆったりとしたOh,Jesus!のBGMを聞きながら、パティはジャックスに導かれるままホールの真ん中に進む。
 
-　身体が密着するのもかまわず、パティは新しいことをジャックスが教えてくれるのだと嬉しそうに顔をほころばす。ジャックスは引き締まった腰に手を当て、もう片方の手を絡ませる。
-「じゃあ、練習するよ。はい、いち・に・さん、いち・に・さん……」
-　二人のU FOR Uの制服はもとから一つの絵画であったかのように、身体の重なりを自然なものに演出していた。
+            身体が密着するのもかまわず、パティは新しいことをジャックスが教えてくれるのだと嬉しそうに顔をほころばす。ジャックスは引き締まった腰に手を当て、もう片方の手を絡ませる。
+            「じゃあ、練習するよ。はい、いち・に・さん、いち・に・さん……」
+            二人のU FOR Uの制服はもとから一つの絵画であったかのように、身体の重なりを自然なものに演出していた。
 
-「いち。に、さん。」
-　パティが小さくつぶやきながら、頭のつむじがわずかに揺れる。そして綺麗にジャックスの革靴を踏み、バランスを崩す。それを少し腕に力を入れたジャックスが支えなおす。
-「あっ、ブラブラごめん。」
-「いいですよ、こういうのは練習あるのみですからね。」
+            「いち。に、さん。」
+            パティが小さくつぶやきながら、頭のつむじがわずかに揺れる。そして綺麗にジャックスの革靴を踏み、バランスを崩す。それを少し腕に力を入れたジャックスが支えなおす。
+            「あっ、ブラブラごめん。」
+            「いいですよ、こういうのは練習あるのみですからね。」
 
-　しばらくすると飲み込みの速さが幸いし、軽やかにステップを刻むようになった。ジャックスは彼女がイベントに参加すれば、注目の的になるだろうと思うほどに。
-　何度もパティの華奢なつま先が自分の革靴の上に触れる。その軽い衝動が伝わる度、ジャックスの心臓が小さく跳ねた。その回数が少なくなるのを寂しく感じた。
+            しばらくすると飲み込みの速さが幸いし、軽やかにステップを刻むようになった。ジャックスは彼女がイベントに参加すれば、注目の的になるだろうと思うほどに。
+            何度もパティの華奢なつま先が自分の革靴の上に触れる。その軽い衝動が伝わる度、ジャックスの心臓が小さく跳ねた。その回数が少なくなるのを寂しく感じた。
 
-　どれほどの時間踊っていただろうか、パティの一言でジャックスはハッとする。
-「ブラブラー、もう無理だよぉ。」
-　するりとジャックスのリードから抜け出し、パティは近くのソファに座り込む。ジャックスはその様子に苦笑しながら隣に腰掛け、パティの脚を労わるための治療道具と飲み物を手渡した。
-「ありがとう。練習も、付き合ってくれて。」
-「いいえ、ステップの飲み込みがとても早くて、ジャックスも時間を忘れるくらい楽しかったです。」
+            どれほどの時間踊っていただろうか、パティの一言でジャックスはハッとする。
+            「ブラブラー、もう無理だよぉ。」
+            するりとジャックスのリードから抜け出し、パティは近くのソファに座り込む。ジャックスはその様子に苦笑しながら隣に腰掛け、パティの脚を労わるための治療道具と飲み物を手渡した。
+            「ありがとう。練習も、付き合ってくれて。」
+            「いいえ、ステップの飲み込みがとても早くて、ジャックスも時間を忘れるくらい楽しかったです。」
 
-　ぐでんと足を投げ出すパティに、再度声をかける。
-「それで、誰と行こうと思ってたんですか？」
-「えー、つんつんと行こうかなって思ってたけど、こういう感じならこみこみがいいのかなぁ。」
-　スマホを手に連絡先を吟味しているであろう彼女を横目に、ジャックスは少し胸に詰まるものがある気がした。
+            ぐでんと足を投げ出すパティに、再度声をかける。
+            「それで、誰と行こうと思ってたんですか？」
+            「えー、つんつんと行こうかなって思ってたけど、こういう感じならこみこみがいいのかなぁ。」
+            スマホを手に連絡先を吟味しているであろう彼女を横目に、ジャックスは少し胸に詰まるものがある気がした。
 
-「でもね、ブラブラがチケット持ってないんだったら、今みたいに一緒に踊れたら楽しいだろうなと思って。」
-　チケット持ったもの同士が行っても問題はないのだが、自分が教えたダンスを他の男と踊るであろう彼女を見るのも面白い気がした。
+            「でもね、ブラブラがチケット持ってないんだったら、今みたいに一緒に踊れたら楽しいだろうなと思って。」
+            チケット持ったもの同士が行っても問題はないのだが、自分が教えたダンスを他の男と踊るであろう彼女を見るのも面白い気がした。
 
-「ジャックスはいつでも歓迎ですけどね。」
-　満足げを装いながら、胸の痞えは未だ取れない。
+            「ジャックスはいつでも歓迎ですけどね。」
+            満足げを装いながら、胸の痞えは未だ取れない。
 
         </div>
 
         <!-- Day 2 の物語 -->
         <div id="story-day-2">
-　ロスサントスの住人には関わりのある人とない人の差が激しい。
-　ただ、どんな住人でも可愛いは正義である。とゆたんぽは考えている。
+            ロスサントスの住人には関わりのある人とない人の差が激しい。
+            ただ、どんな住人でも可愛いは正義である。とゆたんぽは考えている。
 
-　例えば、救急隊では滅多に見ないが、BMCによく来る羽山パティさん。
-　んぽが街に来る前はギャング、来た頃には個人医、かかわりを得たころには半グレや餡ブレラ。つまり、黒市民であるということだけが確定している住人だ。
+            例えば、救急隊では滅多に見ないが、BMCによく来る羽山パティさん。
+            んぽが街に来る前はギャング、来た頃には個人医、かかわりを得たころには半グレや餡ブレラ。つまり、黒市民であるということだけが確定している住人だ。
 
-　しかしそのような経歴は、ゆたんぽにとっては些細な事だった。
-　病院や犯罪現場では遠目からしか見れなかったパティと、BMCで出会った時には胸が躍った。
-　きめの細かい白い肌、さらけ出された脚は程よく引き締まり、小さな顔には宇宙を閉じ込めたような大きな瞳。その快活そうな全体像に見合う微笑みが明るく、周りを白黒関係なく温かくする魅力。
-　まさに『かわいい』の定義に当てはまる住人といえるだろう。
+            しかしそのような経歴は、ゆたんぽにとっては些細な事だった。
+            病院や犯罪現場では遠目からしか見れなかったパティと、BMCで出会った時には胸が躍った。
+            きめの細かい白い肌、さらけ出された脚は程よく引き締まり、小さな顔には宇宙を閉じ込めたような大きな瞳。その快活そうな全体像に見合う微笑みが明るく、周りを白黒関係なく温かくする魅力。
+            まさに『かわいい』の定義に当てはまる住人といえるだろう。
 
-「ぶーん、あっ、んぽんぽ！修理お願いします。」
-　いつも通り、小峯さんを乗せてゆたんぽが勤務中のBMCに車をガレージに入れて、車から降りる。
-　その隙を狙って他の住人にやっているのと同じく、『ぎゅっ』とする。
+            「ぶーん、あっ、んぽんぽ！修理お願いします。」
+            いつも通り、小峯さんを乗せてゆたんぽが勤務中のBMCに車をガレージに入れて、車から降りる。
+            その隙を狙って他の住人にやっているのと同じく、『ぎゅっ』とする。
 
-　その瞬間に、彼女の身体が固まったのを回した手で察した。
-　色々な人と仲が良く、特に仲の良い人とはよくおんぶや抱っこをしてもらって笑っているのを見ていた。しかし軽い一方的なハグでこれほど警戒されることに、あぁ、そういうことかと理解した。
+            その瞬間に、彼女の身体が固まったのを回した手で察した。
+            色々な人と仲が良く、特に仲の良い人とはよくおんぶや抱っこをしてもらって笑っているのを見ていた。しかし軽い一方的なハグでこれほど警戒されることに、あぁ、そういうことかと理解した。
 
-　彼女が『心』を許さねば、本当は触れることは『脅威』になりうるのだろう。それほどの過去が積み重なって彼女を形成している。
-　そしてこれ以上追求しようものなら、隣を当たり前の顔で立っている狐さんが『黒』としての対応をするのだろうことは容易に想像できる。
+            彼女が『心』を許さねば、本当は触れることは『脅威』になりうるのだろう。それほどの過去が積み重なって彼女を形成している。
+            そしてこれ以上追求しようものなら、隣を当たり前の顔で立っている狐さんが『黒』としての対応をするのだろうことは容易に想像できる。
 
-　『普段通り』、一方的に背中に回していた手を戻して、何も悟られないように声をかけた。
-「パティさん、今日もかわいいですね！」
-「しってるよ～！」　
-　かわいらしい返事とともに、ほかの従業員がやってくれた修理にお礼を言う行儀のよさ。羽山パティが白市民であれば、いつか自分を受け入れてくれるように、もっと優しく深くゆっくりと関わりたいと思ったことは一度ではない。
-　そんな日は来ないことを知りながら、ゆたんぽは笑顔の仮面をつけていつも通りを装う。
-「いってらっしゃーい！狐さんも！！」
+            『普段通り』、一方的に背中に回していた手を戻して、何も悟られないように声をかけた。
+            「パティさん、今日もかわいいですね！」
+            「しってるよ～！」　
+            かわいらしい返事とともに、ほかの従業員がやってくれた修理にお礼を言う行儀のよさ。羽山パティが白市民であれば、いつか自分を受け入れてくれるように、もっと優しく深くゆっくりと関わりたいと思ったことは一度ではない。
+            そんな日は来ないことを知りながら、ゆたんぽは笑顔の仮面をつけていつも通りを装う。
+            「いってらっしゃーい！狐さんも！！」
         </div>
 
         <!-- Day 3 の物語 -->
         <div id="story-day-3">
-「パティは最近なんか欲しいもの、ないの？」
-　リビングでパティが椅子に腰かけスマホを見ていると、家に帰ってきたアヌギフが冷蔵庫の中身を確認しながら声をかけた。
-「んぇ？」
-　家にいるときに会話が発生することは珍しくないが、アヌギフから話を振ってくることは稀で、まして彼から欲しいものを聞いてくるとは思いもよらず、間の抜けた声がパティの口から漏れた。
+            「パティは最近なんか欲しいもの、ないの？」
+            リビングでパティが椅子に腰かけスマホを見ていると、家に帰ってきたアヌギフが冷蔵庫の中身を確認しながら声をかけた。
+            「んぇ？」
+            家にいるときに会話が発生することは珍しくないが、アヌギフから話を振ってくることは稀で、まして彼から欲しいものを聞いてくるとは思いもよらず、間の抜けた声がパティの口から漏れた。
 
-「ほら、そろそろクリスマスじゃん。なんか欲しいものないのかなって。」
-　パティが継ぐ言葉に困ったのかと思ったアヌギフは少し早口で説明を入れた。
-「んー、そうだなぁ。貰えるなら何でもうれしいけど……。」
-　持っていたスマホをテーブルに置き、顎に人差し指を添え、少し考える。
+            「ほら、そろそろクリスマスじゃん。なんか欲しいものないのかなって。」
+            パティが継ぐ言葉に困ったのかと思ったアヌギフは少し早口で説明を入れた。
+            「んー、そうだなぁ。貰えるなら何でもうれしいけど……。」
+            持っていたスマホをテーブルに置き、顎に人差し指を添え、少し考える。
 
-「でも急にどうしたの？」
-　パティはアヌギフがお金に困っていることは何度か見たことがあったが、積極的に人に何かを与える場面に遭遇したことはあまりない。
-　核心を突かれたアヌギフは落ち着きなく何度も開け閉めしていた冷蔵庫を閉じて、少しうつむき首の後ろに手を持っていく。その仕草はパティがよく見るアヌギフの照れ隠しだった。
+            「でも急にどうしたの？」
+            パティはアヌギフがお金に困っていることは何度か見たことがあったが、積極的に人に何かを与える場面に遭遇したことはあまりない。
+            核心を突かれたアヌギフは落ち着きなく何度も開け閉めしていた冷蔵庫を閉じて、少しうつむき首の後ろに手を持っていく。その仕草はパティがよく見るアヌギフの照れ隠しだった。
 
-「前、科場さんにさ、ねだってから。」
-　ぽつり、下を向いて告げられた言葉は大きなものではなかったが、アヌギフの方を向いていたパティにはしっかりと聞き取れた。
-「欲しいもの多いなら、俺でもちょっとは買えるからさ。」
-　甘い言葉を吐くわけでもなく、ただ不器用な言葉を集めて繋げたような発言だったが、パティは兄が何を言いたいのか理解した。
+            「前、科場さんにさ、ねだってから。」
+            ぽつり、下を向いて告げられた言葉は大きなものではなかったが、アヌギフの方を向いていたパティにはしっかりと聞き取れた。
+            「欲しいもの多いなら、俺でもちょっとは買えるからさ。」
+            甘い言葉を吐くわけでもなく、ただ不器用な言葉を集めて繋げたような発言だったが、パティは兄が何を言いたいのか理解した。
 
-「んへへ、あのね、もろもろには今度一緒に出勤するときに送って欲しいって、おねだりしてたの。」
-　内緒話をする子供のようなまなざしで、吐息を含ませて小さく紡いだ言葉に、アヌギフは街でのパティを家族の中では一番知っている自負があったため意外に思った。
-　彼女は誰よりも強かに、貰えるものは当たり前に、欲しいものは誰かにねだるような。そんな生き方をこの街では基本にしてきたはずだった。
-　運転手、しかも同じ屋根の下で生活している人間に。ただのかわいいおねだりだった。
-「運転が慣れてきたって話、聞いたからさ。」
-　嬉しそうに、主のいない部屋に視線を向けたパティにどこまでも無関心な心のどこか、知らないところがが温かくなった気がした。
+            「んへへ、あのね、もろもろには今度一緒に出勤するときに送って欲しいって、おねだりしてたの。」
+            内緒話をする子供のようなまなざしで、吐息を含ませて小さく紡いだ言葉に、アヌギフは街でのパティを家族の中では一番知っている自負があったため意外に思った。
+            彼女は誰よりも強かに、貰えるものは当たり前に、欲しいものは誰かにねだるような。そんな生き方をこの街では基本にしてきたはずだった。
+            運転手、しかも同じ屋根の下で生活している人間に。ただのかわいいおねだりだった。
+            「運転が慣れてきたって話、聞いたからさ。」
+            嬉しそうに、主のいない部屋に視線を向けたパティにどこまでも無関心な心のどこか、知らないところがが温かくなった気がした。
 
-「だからさ、パティ、アマギフからも何か欲しい、とかはないんだけど。……いつものモーニングコール実はうれしいからさ、いつも時間取れないけど、もっといっぱい話そ？」
-　いつの間にか身体までアヌギフに向けていたパティがこちらに視線を移して首を傾ける。その耳元はおねだりに慣れていない無垢な少女のように赤らんでいた。この街の生きざまと異なる『家族』の姿に何も考えず「いいよ。」と答えていた。
+            「だからさ、パティ、アマギフからも何か欲しい、とかはないんだけど。……いつものモーニングコール実はうれしいからさ、いつも時間取れないけど、もっといっぱい話そ？」
+            いつの間にか身体までアヌギフに向けていたパティがこちらに視線を移して首を傾ける。その耳元はおねだりに慣れていない無垢な少女のように赤らんでいた。この街の生きざまと異なる『家族』の姿に何も考えず「いいよ。」と答えていた。
 
-「あとねあとね、もう今日パティ疲れちゃったから部屋までおんぶして～。」
-「はいはい。」
-　あの美しい青に芽生えた微かな対抗心さえ甘さに変えてしまう妹に、アヌギフはやはり兄にも、妹にも敵わないことを知った。いや、知っていた。
+            「あとねあとね、もう今日パティ疲れちゃったから部屋までおんぶして～。」
+            「はいはい。」
+            あの美しい青に芽生えた微かな対抗心さえ甘さに変えてしまう妹に、アヌギフはやはり兄にも、妹にも敵わないことを知った。いや、知っていた。
 
-　たまに不安になる。科場に双子が頼り、その期待に応える兄。自分も双子の兄であることを自覚し、頼られていないことに不安が募り車などをあげてみるがしっくり来ていなかった。
-　本人に欲しいものを聞くと、『自分』が必要だと伝えてくれる家族に、アヌギフはこの日々の愛しさを感じていた。
+            たまに不安になる。科場に双子が頼り、その期待に応える兄。自分も双子の兄であることを自覚し、頼られていないことに不安が募り車などをあげてみるがしっくり来ていなかった。
+            本人に欲しいものを聞くと、『自分』が必要だと伝えてくれる家族に、アヌギフはこの日々の愛しさを感じていた。
 
         </div>
 
@@ -355,7 +383,7 @@
             ふわふわはまだ空を飛ぶのが少し苦手。練習中に、雪だるまが寂しそうにしているのを見つけました。
             ふわふわは、雪だるまを元気づけるために、得意のジャンプで最高のプレゼントを届けます。
         </div>
-        
+
         <!-- Day 6 の物語 (ここから内容を自由に追加・変更してください) -->
         <div id="story-day-6">
             --- 12月6日: 物語を書き込みましょう！ ---
@@ -451,30 +479,58 @@
     <div id="feature-detail-modal" class="hidden fixed inset-0 bg-red-900 bg-opacity-80 z-[9999] flex items-center justify-center p-4">
         <!-- モーダルコンテンツボックス (初期状態でアニメーション開始前のクラスを付与) -->
         <!-- perspectiveを設定した親要素の中で、3D回転アニメーションを行います -->
-        <div class="modal-content-box bg-white w-full max-w-xl p-8 rounded-xl shadow-2xl relative border-4 border-amber-400 modal-start-state">
-            <button id="close-modal-button" class="absolute top-4 right-4 text-gray-500 hover:text-red-700 transition">
+        <div class="modal-content-box bg-white w-full max-w-xl p-0 rounded-xl shadow-2xl relative border-4 border-amber-400 modal-start-state">
+            <button id="close-modal-button" class="absolute top-4 right-4 z-20 text-gray-500 hover:text-red-700 bg-white/80 rounded-full p-1 transition shadow-sm">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-            
-            <!-- NEW: 画像表示用のコンテナ -->
-            <div id="modal-image-container" class="mb-6 rounded-lg overflow-hidden shadow-xl border-4 border-red-200">
-                <!-- ここに画像が動的に挿入されます -->
-            </div>
-            
-            <!-- アイコン表示用のコンテナ (カードのアイコンを大きく表示) -->
-            <div id="modal-icon-container" class="text-amber-500 mb-6 flex justify-center drop-shadow-lg">
-                <!-- ここにSVGが動的に挿入されます -->
-            </div>
 
-            <h3 id="modal-title" class="text-3xl font-extrabold text-red-800 text-center mb-4"></h3>
-            <!-- detailのテキストが物語になるようにプレースホルダの内容を調整しました -->
-            <p id="modal-detail" class="text-gray-700 text-lg leading-relaxed whitespace-pre-wrap text-left"></p>
+            <!-- スクロール可能なコンテンツのラッパー (paddingはここに移動) -->
+            <div class="overflow-y-auto p-6 flex-1 custom-scrollbar">
+                <!-- NEW: 画像表示用のコンテナ -->
+                <div id="modal-image-container" class="mb-6 rounded-lg overflow-hidden shadow-xl border-4 border-red-200 flex-shrink-0">
+                    <!-- ここに画像が動的に挿入されます -->
+                </div>
+
+                <!-- アイコン表示用のコンテナ (カードのアイコンを大きく表示) -->
+                <div id="modal-icon-container" class="text-amber-500 mb-6 flex justify-center drop-shadow-lg">
+                    <!-- ここにSVGが動的に挿入されます -->
+                </div>
+
+                <h3 id="modal-title" class="text-3xl font-extrabold text-red-800 text-center mb-4 flex-shrink-0"></h3>
+                <!-- 物語の本文 -->
+                <div class="">
+                    <!-- 以前のラッパーdivのクラスは削除し、親のflex-1でスクロールさせる -->
+                    <p id="modal-detail" class="text-gray-700 text-lg leading-relaxed whitespace-pre-wrap text-left"></p>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- ロックメッセージ表示用ボックス -->
+    <div id="lock-message-box" class="text-base font-bold">
+        <span id="lock-message-text"></span>
+    </div>
 
     <!-- jQueryによる動的処理スクリプト -->
     <script>
+        // ロックメッセージ表示関数
+        let messageTimeout;
+        function showMessage(message) {
+            const $box = $('#lock-message-box');
+            $('#lock-message-text').text(message);
+
+            // 既存のタイムアウトをクリア
+            clearTimeout(messageTimeout);
+
+            // メッセージを表示
+            $box.addClass('show-message');
+
+            // 3秒後に消す
+            messageTimeout = setTimeout(() => {
+                $box.removeClass('show-message');
+            }, 3000);
+        }
+
         // DOMの準備が完了したら実行
         $(document).ready(function() {
 
@@ -482,13 +538,37 @@
             // 1. 特徴カード（アドベント扉）のクリックで詳細モーダルを表示する機能
             // ===============================================
             $('.day-card').on('click', function() {
-                const day = $(this).data('day');
-                const title = $(this).data('title');
-                const imageUrl = $(this).data('image-url');
-                
-                // NEW: 隠しセクションから日ごとの物語コンテンツを読み込みます
+                const $card = $(this);
+                const day = $card.data('day');
+                const isLocked = $card.data('locked') === true || $card.data('locked') === 'true';
+
+                // ロックチェック: ロックされている場合は処理を中断し、メッセージを表示
+                if (isLocked) {
+                    showMessage(`12月${day}日まではまだ開けられません。楽しみに待ちましょう！`);
+                    return;
+                }
+
+                // 以下の処理はアンロックされている場合のみ実行されます
+
+                const title = $card.data('title');
+                // NEW: data-image-style を取得
+                const imageStyleData = $card.data('image-style');
+
+                let imageUrl = $card.data('image-url'); // デフォルトの画像URL
+                let imageClasses = 'w-full h-auto object-cover'; // デフォルトのクラス
+
+                // NEW: imageStyle属性が存在する場合、URLとクラスを分離
+                if (imageStyleData) {
+                    const parts = imageStyleData.split('|');
+                    imageUrl = parts[0]; // 最初の部分が新しいURL
+                    if (parts.length > 1) {
+                        imageClasses = parts[1]; // 2番目の部分が適用するクラス
+                    }
+                }
+
+                // 隠しセクションから日ごとの物語コンテンツを読み込みます
                 const detail = $(`#story-day-${day}`).text().trim();
-                
+
                 const $modal = $('#feature-detail-modal');
                 const $contentBox = $modal.find('.modal-content-box');
                 const $imageContainer = $('#modal-image-container');
@@ -497,31 +577,31 @@
                 // 画像の挿入
                 // ----------------------------------------------------
                 if (imageUrl) {
+                    // NEW: imageClasses を動的に適用
                     const imageMarkup = `
-                        <img src="${imageUrl}" alt="${title}のデモ画像" class="w-full h-auto object-cover">
+                        <img src="${imageUrl}" alt="${title}のデモ画像" class="${imageClasses} w-full object-cover">
                     `;
-                    $imageContainer.html(imageMarkup).show(); // 画像を挿入し、コンテナを表示
+                    // NOTE: w-full object-cover は常に適用し、imageClassesで高さを上書き/追加できるようにする
+                    $imageContainer.html(imageMarkup).show();
                 } else {
                     $imageContainer.hide();
                 }
-                
+
                 // ----------------------------------------------------
                 // テキストコンテンツの更新
                 // ----------------------------------------------------
                 $('#modal-title').text(title);
-                // `whitespace-pre-wrap` クラスを活かすために、詳細テキストをそのまま設定
                 $('#modal-detail').text(detail);
-                
+
                 // ----------------------------------------------------
                 // モーダルの表示とアニメーション (手紙が飛び出すフリップ)
                 // ----------------------------------------------------
-                
+
                 // 1. モーダル背景をすぐにフェードインで表示 (オーバーレイ)
                 $modal.fadeIn(200, function() {
                     // 2. モーダルコンテンツの初期状態クラスを削除し、終了状態クラスを追加
-                    //    これにより、CSSで定義された transform transitionがトリガーされ、フリップアニメーションが始まる
                     $contentBox.removeClass('modal-start-state').addClass('modal-end-state');
-                    
+
                     // モーダル表示中は背景のスクロールを禁止
                     $('body').addClass('overflow-hidden');
                 });
@@ -533,6 +613,8 @@
             const closeModal = function() {
                 const $modal = $('#feature-detail-modal');
                 const $contentBox = $modal.find('.modal-content-box');
+                // スクロールコンテナを取得してリセットする
+                const $scrollContainer = $modal.find('.overflow-y-auto');
 
                 // 1. アニメーション逆再生 (フリップして奥に消える動き)
                 $contentBox.removeClass('modal-end-state').addClass('modal-start-state');
@@ -543,23 +625,26 @@
                     $modal.fadeOut(200, function() {
                         // 背景のスクロール禁止を解除
                         $('body').removeClass('overflow-hidden');
-                        
+
                         // コンテンツをクリア (次のカードのためにリセット)
                         $('#modal-image-container').empty().hide();
                         $('#modal-title').empty();
                         $('#modal-detail').empty();
+
+                        // モーダルが閉じるときにスクロール位置をリセットする
+                        $scrollContainer.scrollTop(0);
                     });
                 }, 600); 
             };
 
             // 閉じるボタンがクリックされたとき
-            $('#close-modal-button').on('click', function(e) {
+            $('#close-modal-button').on('click', function (e) {
                 e.preventDefault(); // ボタンのデフォルト動作を停止
                 closeModal();
             });
 
             // オーバーレイ（モーダル背景）がクリックされたとき
-            $('#feature-detail-modal').on('click', function(e) {
+            $('#feature-detail-modal').on('click', function (e) {
                 // クリックされた要素がモーダル自体（.modal-content-boxの外部）であるかを確認
                 if (e.target.id === 'feature-detail-modal') {
                     closeModal();
@@ -567,7 +652,7 @@
             });
 
             // モーダルコンテンツ内をクリックしても閉じないようにイベント伝播を停止（念のため）
-            $('.modal-content-box').on('click', function(e) {
+            $('.modal-content-box').on('click', function (e) {
                 e.stopPropagation();
             });
         });
