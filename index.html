@@ -170,11 +170,11 @@
             </button>
 
             <!-- スクロール可能なコンテンツのラッパー (paddingはここに移動) -->
-            <div class="overflow-y-auto p-6 pb-20 flex-1 custom-scrollbar">
-                <!-- NEW: 画像表示用のコンテナ -->
-                <div id="modal-image-container" class="mb-6 rounded-lg overflow-hidden shadow-xl border-4 border-red-200 flex-shrink-0">
-                    <!-- ここに画像が動的に挿入されます -->
-                </div>
+            <div class="overflow-y-auto p-2 pb-20 flex-1 custom-scrollbar">
+                <!-- 大きな文字と下にラインを入れることで、タイトルと本文の区切りを明確に -->
+                <h2 id="modal-header-text" class="text-2xl sm:text-3xl font-extrabold text-red-700 mb-6 border-b-2 pb-2 border-red-100 flex-shrink-0 text-center">
+                    <!-- ここにheaderTextが動的に挿入されます -->
+                </h2>
 
                 <!-- アイコン表示用のコンテナ -->
                 <div id="modal-icon-container" class="text-amber-500 mb-4 flex justify-center drop-shadow-lg flex-shrink-0">
@@ -183,7 +183,7 @@
 
                 <!-- 物語の本文 -->
                 <div class="mb-6">
-                    <p id="modal-detail" class="text-gray-700 text-lg leading-relaxed whitespace-pre-wrap text-left"></p>
+                    <p id="modal-detail" class="text-gray-700 text-m leading-relaxed whitespace-pre-wrap text-left"></p>
                 </div>
 
                 <!-- セパレーター -->
@@ -211,128 +211,188 @@
             {
                 day: 1,
                 title: '無知なままで',
-                imagePath: './img/1.png', 
-                imageStyle: 'h-32', // Tailwindクラスで高さを指定
-                story: `
-「パティさん、ダンスの相手は決まったんですか？」
+                headerText: '12月1日：🔳🩺', 
+                story: `「パティさん、ダンスの相手は決めたんですか？」
 「ん？なんのこと？」
+　夜も更けたU FOR Uにて、在庫の確認をしていたブラック・ジャックスが、ホールの見回りをしていたパティに声をかける。
 
 「今週末にイベントあるじゃないですか？JTS主催の。」
-　パティさんも参加するって救急隊の同期に聞きましたけど。
-「あー、イベント……。うん、申し込みしたかも～。なんあれ、相手とか必要なの？」
+　パティさんも参加するって救急隊の同期に聞きましたけど。と得意の情報戦の成果を漏らす。
+「あー、イベント……。うん、申し込みしたかも～。なに、あれ相手とか必要なの？」
 「そりゃ、ダンスパーティですからね。」
-　パティはJTSといえば集団での踊りが有名なため、そのダンスを見せてもらうようなイベントだと思い、面白そうだと申し込んだことを思い出した。
+　JTSは統率の取れた集団での踊りが有名なメカニックだ。パティは、そのダンスを見せてもらうようなイベントだと思い、面白そうだと申し込んだことを思い出した。
 
 「社交ダンス、踊ったことないの？」
 「しゃこうだんす？」
 「男女でステップを踏んでムードを楽しむんですよ。」
 
-　ほら、立って。ジャックスが急かすように、少し嬉しそうにパティをに手を差し出した。
-　U FOR Uのホールが二人が手を取り合った途端に、カフェからダンスホールのように変化した。木の温もりに包まれて、暖炉がぱちぱちとリズムを刻む。ゆったりとしたOh,Jesus!のBGMを聞きながら、パティはジャックスに導かれるままホールの真ん中に進む。
+「ほら、こっち来て。」
+　ジャックスが急かすように、少し嬉しそうにパティをに手を差し出した。
+　見慣れたU FOR Uのホールが二人が手を取り合った途端に、カフェからダンスホールに変化した。木の温もりに包まれて、暖炉がぱちぱちと音を立てる。ゆったりとしたOh,Jesus!のBGMを聞きながら、パティはジャックスに導かれるままホールの真ん中に進み手を取った。
 
 　身体が密着するのもかまわず、パティは新しいことをジャックスが教えてくれるのだと嬉しそうに顔をほころばす。ジャックスは引き締まった腰に手を当て、もう片方の手を絡ませる。
 「じゃあ、練習するよ。はい、いち・に・さん、いち・に・さん……」
-　二人のU FOR Uの制服はもとから一つの絵画であったかのように、身体の重なりを自然なものに演出していた。
+　二人のU FOR Uの制服は、並んで立つと一枚の絵のように調和していた。
 
 「いち。に、さん。」
 　パティが小さくつぶやきながら、頭のつむじがわずかに揺れる。そして綺麗にジャックスの革靴を踏み、バランスを崩す。それを少し腕に力を入れたジャックスが支えなおす。
 「あっ、ブラブラごめん。」
 「いいですよ、こういうのは練習あるのみですからね。」
 
-　しばらくすると飲み込みの速さが幸いし、軽やかにステップを刻むようになった。ジャックスは彼女がイベントに参加すれば、注目の的になるだろうと思うほどに。
-　何度もパティの華奢なつま先が自分の革靴の上に触れる。その軽い衝動が伝わる度、ジャックスの心臓が小さく跳ねた。その回数が少なくなるのを寂しく感じた。
+　しばらくすると飲み込みの速さが幸いし、軽やかにステップを刻むようになった。彼女がイベントに参加すれば、注目の的になるだろうと思うほどに。
+　何度もパティの華奢なつま先が自分の革靴の上に触れる。その軽い衝動が伝わる度、ジャックスの心臓が小さく跳ねた。そして上達するほどに、その回数が少なくなるのを寂しく感じた。
 
-　どれほどの時間踊っていただろうか、パティの一言でジャックスはハッとする。
+　どれほどの時間踊っていただろうか、パティの一言でジャックスはハッと我に返った。
 「ブラブラー、もう無理だよぉ。」
 　するりとジャックスのリードから抜け出し、パティは近くのソファに座り込む。ジャックスはその様子に苦笑しながら隣に腰掛け、パティの脚を労わるための治療道具と飲み物を手渡した。
 「ありがとう。練習も、付き合ってくれて。」
 「いいえ、ステップの飲み込みがとても早くて、ジャックスも時間を忘れるくらい楽しかったです。」
 
 　ぐでんと足を投げ出すパティに、再度声をかける。
-「それで、誰と行こうと思ってたんですか？」
+「それで、誰と行くんですか？」
 「えー、つんつんと行こうかなって思ってたけど、こういう感じならこみこみがいいのかなぁ。」
-　スマホを手に連絡先を吟味しているであろう彼女を横目に、ジャックスは少し胸に詰まるものがある気がした。
+　スマホを手に連絡先を吟味しているであろう彼女を横目に、ジャックスは少し胸に詰まるものがあった。
 
-「でもね、ブラブラがチケット持ってないんだったら、今みたいに一緒に踊れたら楽しいだろうなと思って。」
-　チケット持ったもの同士が行っても問題はないのだが、自分が教えたダンスを他の男と踊るであろう彼女を見るのも面白い気がした。
+「でもね、ブラブラがチケット持ってないんだったら……、今みたいに一緒に踊れたら楽しいだろうなと思って。」
+　チケット持ったもの同士が行っても問題はない。しかし自分が教えたステップを、他の男と踊るであろう彼女を見るのも面白い気がした。
 
 「ジャックスはいつでも歓迎ですけどね。」
 　満足げを装いながら、胸の痞えは未だ取れない。
+
 `
             },
             {
                 day: 2,
-                title: '12月2日：ジンジャーブレッドハウスの秘密',
-                imageUrl: 'https://placehold.co/600x400/991B1B/White?text=Day+2',
-                imageStyle: null,
-                story: `🏡 12月2日: ジンジャーブレッドハウスの秘密 🍪
-森の奥にあるジンジャーブレッドハウスは、世界で一番甘い香りがします。
-家を守るのは、編み物が得意な心優しいリスのおばあさん。
-彼女は、特別な人だけに、焼きたてのクッキーの中に隠された「一つだけ願いが叶う秘密のレシピ」を教えてくれます。`
+                title: '慣らしていったってことでしょ',
+                headerText: '12月2日：♨️💛', 
+                story: `
+                `
             },
             {
                 day: 3,
-                title: '12月3日：なくした鈴と天使の歌声',
-                imageUrl: 'https://placehold.co/600x400/065F46/Yellow?text=Day+3',
-                imageStyle: null,
-                story: `🔔 12月3日: なくした鈴と天使の歌声 🎶
-クリスマスの飾り付けをしていた小さな天使が、大切な金の鈴を落としてしまいました。
-鈴がないと、クリスマスの鐘が鳴りません。
-その鈴を探し出したのは、地面に落ちた星のかけらを集めるのが好きな、一羽のロビン（コマドリ）でした。`
+                title: 'コバルトブルーへの対抗心',
+                headerText: '12月3日：🐕🛸',
+                story:`
+                `
             },
             {
                 day: 4,
-                title: '12月4日：一番明るい星の輝き',
-                imageUrl: 'https://placehold.co/600x400/FBBF24/Black?text=Day+4',
-                imageStyle: null,
-                story: `🌟 12月4日: 一番明るい星の輝き ✨
-夜空で一番明るく輝く星は、実は、みんなの「ありがとう」の気持ちが集まってできていることを知っていますか？
-今日、あなたが一日に言った「ありがとう」が、ひとつひとつ光の粒になって空に昇り、その星をさらに明るくしました。
-感謝の気持ちは、世界を照らす光になるのです。`
+                title: '静かな寝息',
+                headerText: '12月4日：🦗',
+                story: ``
             },
             {
                 day: 5,
-                title: '12月5日：サンタさんの見習いトナカイ',
-                imageUrl: 'https://placehold.co/600x400/4F46E5/White?text=Day+5',
-                imageStyle: null,
-                story: `🎁 12月5日: サンタさんの見習いトナカイ 🦌
-サンタクロースのソリを引く見習いのトナカイ、名前は「ふわふわ」。
-ふわふわはまだ空を飛ぶのが少し苦手。練習中に、雪だるまが寂しそうにしているのを見つけました。
-ふわふわは、雪だるまを元気づけるために、得意のジャンプで最高のプレゼントを届けます。`
+                title: '君がいい',
+                headerText: '12月5日：🚬🦊',
+                story: ``
             },
-            // 残りの日もデータとして追加（画像URLと物語本文を自由に変更可能）
-            { day: 6, title: '12月6日：冬の夜の暖炉の音', imageUrl: 'https://placehold.co/600x400/991B1B/White?text=Day+6', imageStyle: null, story: '--- 12月6日: 物語を書き込みましょう！ ---' },
-            { day: 7, title: '12月7日：凍った湖のスケート靴', imageUrl: 'https://placehold.co/600x400/065F46/Yellow?text=Day+7', imageStyle: null, story: '--- 12月7日: 物語を書き込みましょう！ ---' },
-            { day: 8, title: '12月8日：モミの木を探して', imageUrl: 'https://placehold.co/600x400/FBBF24/Black?text=Day+8', imageStyle: null, story: '--- 12月8日: 物語を書き込みましょう！ ---' },
-            { day: 9, title: '12月9日：プレゼントの包装紙', imageUrl: 'https://placehold.co/600x400/4F46E5/White?text=Day+9', imageStyle: null, story: '--- 12月9日: 物語を書き込みましょう！ ---' },
-            { day: 10, title: '12月10日：雪が降る静かな朝', imageUrl: 'https://placehold.co/600x400/991B1B/White?text=Day+10', imageStyle: null, story: '--- 12月10日: 物語を書き込みましょう！ ---' },
-            { day: 11, title: '12月11日：手作りのオーナメント', imageUrl: 'https://placehold.co/600x400/065F46/Yellow?text=Day+11', imageStyle: null, story: '--- 12月11日: 物語を書き込みましょう！ ---' },
-            { day: 12, title: '12月12日：雪だるまの帽子', imageUrl: 'https://placehold.co/600x400/FBBF24/Black?text=Day+12', imageStyle: null, story: '--- 12月12日: 物語を書き込みましょう！ ---' },
-            { day: 13, title: '12月13日：小さな教会の合唱隊', imageUrl: 'https://placehold.co/600x400/4F46E5/White?text=Day+13', imageStyle: null, story: '--- 12月13日: 物語を書き込みましょう！ ---' },
-            { day: 14, title: '12月14日：ホットチョコレートの秘密', imageUrl: 'https://placehold.co/600x400/991B1B/White?text=Day+14', imageStyle: null, story: '--- 12月14日: 物語を書き込みましょう！ ---' },
-            { day: 15, title: '12月15日：銀色の魔法', imageUrl: 'https://placehold.co/600x400/065F46/Yellow?text=Day+15', imageStyle: null, story: '--- 12月15日: 物語を書き込みましょう！ ---' },
-            { day: 16, title: '12月16日：星空の下のソリ遊び', imageUrl: 'https://placehold.co/600x400/FBBF24/Black?text=Day+16', imageStyle: null, story: '--- 12月16日: 物語を書き込みましょう！ ---' },
-            { day: 17, title: '12月17日：雪の女王の招待状', imageUrl: 'https://placehold.co/600x400/4F46E5/White?text=Day+17', imageStyle: null, story: '--- 12月17日: 物語を書き込みましょう！ ---' },
-            { day: 18, title: '12月18日：街角のイルミネーション', imageUrl: 'https://placehold.co/600x400/991B1B/White?text=Day+18', imageStyle: null, story: '--- 12月18日: 物語を書き込みましょう！ ---' },
-            { day: 19, title: '12月19日：クリスマスの妖精たち', imageUrl: 'https://placehold.co/600x400/065F46/Yellow?text=Day+19', imageStyle: null, story: '--- 12月19日: 物語を書き込みましょう！ ---' },
-            { day: 20, title: '12月20日：遠い国からの手紙', imageUrl: 'https://placehold.co/600x400/FBBF24/Black?text=Day+20', imageStyle: null, story: '--- 12月20日: 物語を書き込みましょう！ ---' },
-            { day: 21, title: '12月21日：一番大切な願い事', imageUrl: 'https://placehold.co/600x400/4F46E5/White?text=Day+21', imageStyle: null, story: '--- 12月21日: 物語を書き込みましょう！ ---' },
-            { day: 22, title: '12月22日：暖炉の前の靴下', imageUrl: 'https://placehold.co/600x400/991B1B/White?text=Day+22', imageStyle: null, story: '--- 12月22日: 物語を書き込みましょう！ ---' },
-            { day: 23, title: '12月23日：魔法のクリスマスクッキー', imageUrl: 'https://placehold.co/600x400/065F46/Yellow?text=Day+23', imageStyle: null, story: '--- 12月23日: 物語を書き込みましょう！ ---' },
-            { day: 24, title: '12月24日：クリスマスイブの奇跡', imageUrl: 'https://placehold.co/600x400/FBBF24/Black?text=Day+24', imageStyle: null, story: '--- 12月24日: クリスマスイブの物語を！ ---' },
+            {
+                day: 6,
+                title: '黒の背徳と秘密',
+                headerText: '12月6日：🐗',
+                story: ``
+            },
+            {
+                day: 7,
+                title: 'キッチンに並ぶ',
+                headerText: '12月7日：🦖',
+                story: ``
+            },
+            {
+                day: 8, title: '来年を約束する',
+                headerText: '12月8日：🚬🦊',
+                story: ``
+            },
+            {
+                day: 9, title: 'その手を止めないで',
+                headerText: '12月9日：✌🛸',
+                story: ``
+            },
+            {
+                day: 10, title: 'あったかいアイスVer.G',
+                headerText: '12月10日：🦗',
+                story: ``
+            },
+            {
+                day: 11, title: '心の温度を映す',
+                headerText: '12月11日：🦖',
+                story: ``
+            },
+            {
+                day: 12, title: '慣らしていったってことでしょ',
+                headerText: '12月12日：❤️🕶',
+                story: ``
+            },
+            {
+                day: 13, title: '『君』を知る',
+                headerText: '12月13日：🕶🏍',
+                story: ``
+            },
+            {
+                day: 14, title: 'アトリエ',
+                headerText: '12月14日：🐈💜',
+                story: ``
+            },
+            {
+                day: 15, title: '色を揃える',
+                headerText: '12月15日：🚬🦊',
+                story: ``
+            },
+            {
+                day: 16, title: '特効薬をどうぞ',
+                headerText: '12月16日：🦖',
+                story: ``
+            },
+            {
+                day: 17, title: '特別内緒なブレンド',
+                headerText: '12月17日：🛠️📷',
+                story: ``
+            },
+            {
+                day: 18, title: '毎日をあげる',
+                headerText: '12月18日：🍆',
+                story: ``
+            },
+            {
+                day: 19, title: '蓋をする',
+                headerText: '12月19日：🚬🦊',
+                story: ``
+            },
+            {
+                day: 20, title: 'CuteとGood',
+                headerText: '12月20日：🚬🦊',
+                story: ``
+            },
+            {
+                day: 21,
+                title: '知らないところで',
+                headerText: '12月21日：🕶🐦‍⬛',
+                story: ``
+            },
+            {
+                day: 22,
+                title: 'あったかいアイスVer.O',
+                headerText: '12月22日：🍆',
+                story: ``
+            },
+            {
+                day: 23,
+                title: '色を纏う',
+                headerText: '12月23日：🍙🛸',
+                story: ``
+            },
+            {
+                day: 24,
+                title: '',
+                headerText: '12月24日：🦖',
+                story: ``
+            },
             {
                 day: 25,
-                title: '🎉 12月25日：メリークリスマス！特別な物語',
-                imageUrl: 'https://placehold.co/600x400/FFD700/841021?text=MERRY+XMAS',
-                imageStyle: null,
-                story: `🎉 12月25日: メリークリスマス！最高の一日！ 🎅
-夜空を駆けるサンタクロースのソリの音が、遠くから聞こえてきました。
-サンタさんが持ってきたのは、あなたへの特別な手紙。
-
-「一年間、よく頑張りましたね。
-このカレンダーの全ての扉を開けたあなたは、きっと世界一優しい心の持ち主です。
-今日という日が、愛と喜びで満たされますように！
-メリークリスマス！」`
+                title: '',
+                headerText: '12月25日：🚬🦊',
+                story: ``
             }
         ];
         // ==============================================================
@@ -402,7 +462,7 @@
                     <div class="day-card bg-white p-4 sm:p-6 rounded-xl shadow-xl ${specialClasses} ${lockClasses}"
                     data-day="${day}"
                     data-title="${data.title}"
-                    ${imageStyleAttr}
+                    data-header-text="${data.headerText}"
                     ${lockedAttr}>
                         <h3 class="text-4xl font-extrabold text-red-800 text-center mb-2 leading-none z-10">${day}</h3>
                         <p class="text-xs text-gray-500 text-center mb-4 z-10">${statusComment}</p>
@@ -461,53 +521,17 @@
 
                 // 以下の処理はアンロックされている場合のみ実行されます
                 const title = contentData.title;
+                const headerText = contentData.headerText; // NEW: ヘッダーテキストを取得
                 const story = contentData.story;
-                const imageStyleData = contentData.imageStyle;
-
-                let imageUrl;
-                // NEW: 画像パスの決定ロジック
-                if (contentData.imagePath) {
-                    // imagePathが設定されている場合 (ローカル画像)
-                    imageUrl = contentData.imagePath;
-                } else {
-                    // imagePathがない場合 (placehold.coを使用)
-                    const imageWidth = contentData.imageWidth || 600;
-                    const imageHeight = contentData.imageHeight || 400;
-                    const imageBgColor = contentData.imageBgColor || '991B1B'; // Default Dark Red
-                    const imageTextColor = contentData.imageTextColor || 'FFFFFF'; // Default White
-                    const imageText = encodeURIComponent(contentData.imagePlaceholderText || `Day ${day} Placeholder`);
-
-                    imageUrl = `https://placehold.co/${imageWidth}x${imageHeight}/${imageBgColor}/${imageTextColor}?text=${imageText}`;
-                }
-
-                let imageClasses = 'w-full h-auto object-cover'; // デフォルトのクラス
-
-                // imageStyle属性が存在する場合、クラスを分離
-                if (imageStyleData) {
-                    imageClasses = imageStyleData;
-                }
 
                 const $modal = $('#feature-detail-modal');
                 const $contentBox = $modal.find('.modal-content-box');
-                const $imageContainer = $('#modal-image-container');
 
-                // ----------------------------------------------------
-                // 画像の挿入
-                // ----------------------------------------------------
-                if (imageUrl) {
-                    // imageClasses を動的に適用
-                    const imageMarkup = `
-                            <img src="${imageUrl}" alt="${title}のデモ画像" class="${imageClasses} w-full object-cover">
-                        `;
-                    // NOTE: w-full object-cover は常に適用し、imageClassesで高さを上書き/追加できるようにする
-                    $imageContainer.html(imageMarkup).show();
-                } else {
-                    $imageContainer.hide();
-                }
 
                 // ----------------------------------------------------
                 // テキストコンテンツの更新
                 // ----------------------------------------------------
+                $('#modal-header-text').text(headerText); // NEW: 大きなヘッダーを挿入
                 $('#modal-detail').text(story);
                 $('#modal-footer-title').text(title);
 
