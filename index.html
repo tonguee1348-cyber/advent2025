@@ -33,23 +33,23 @@
             transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
         }
 
-            .day-card:hover {
-                /* ロックされていないカードのみホバーエフェクトを適用 */
-                box-shadow: 0 20px 25px -5px rgba(239, 68, 68, 0.3), 0 10px 10px -5px rgba(251, 191, 36, 0.2);
-            }
-            /* ロック状態のカードのスタイル */
-            .day-card[data-locked="true"] {
-                opacity: 0.4; /* 透明度を下げて無効に見せる */
-                cursor: not-allowed; /* マウスカーソルを禁止マークに */
-                filter: grayscale(80%); /* グレースケールで色味を抑える */
-                box-shadow: none;
-                transform: none !important; /* ホバーによる移動を無効化 */
-            }
+        .day-card:hover {
+            /* ロックされていないカードのみホバーエフェクトを適用 */
+            box-shadow: 0 20px 25px -5px rgba(239, 68, 68, 0.3), 0 10px 10px -5px rgba(251, 191, 36, 0.2);
+        }
+        /* ロック状態のカードのスタイル */
+        .day-card[data-locked="true"] {
+            opacity: 0.4; /* 透明度を下げて無効に見せる */
+            cursor: not-allowed; /* マウスカーソルを禁止マークに */
+            filter: grayscale(80%); /* グレースケールで色味を抑える */
+            box-shadow: none;
+            transform: none !important; /* ホバーによる移動を無効化 */
+        }
 
-            .day-card[data-locked="true"]:hover {
-                box-shadow: none;
-                transform: none;
-            }
+        .day-card[data-locked="true"]:hover {
+            box-shadow: none;
+            transform: none;
+        }
 
         /* === モーダル（手紙が飛び出すフリップ）アニメーションのためのカスタムスタイル === */
         #feature-detail-modal {
@@ -57,13 +57,12 @@
         }
 
         .modal-content-box {
-            /* 最大高を設定し、垂直方向のパディングを考慮して調整 */
-            max-height: calc(100vh - 40px); /* 画面全体の高さから上下の余白(20px*2)を引く */
-            /* overflow-y: auto;  <-- 【削除】ここではスクロールさせない */
             display: flex; /* 【追加】Flexboxレイアウト */
             flex-direction: column; /* 【追加】縦並び */
             transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.4s ease-out;
             transform-style: preserve-3d;
+            /* モーダル自体が画面高さを超えないように max-h-screen を適用 */
+            max-height: 100vh;
         }
 
         .modal-start-state {
@@ -171,7 +170,7 @@
             </button>
 
             <!-- スクロール可能なコンテンツのラッパー (paddingはここに移動) -->
-            <div class="overflow-y-auto p-6 flex-1 custom-scrollbar">
+            <div class="overflow-y-auto p-6 pb-20 flex-1 custom-scrollbar">
                 <!-- NEW: 画像表示用のコンテナ -->
                 <div id="modal-image-container" class="mb-6 rounded-lg overflow-hidden shadow-xl border-4 border-red-200 flex-shrink-0">
                     <!-- ここに画像が動的に挿入されます -->
@@ -212,7 +211,7 @@
             {
                 day: 1,
                 title: '無知なままで',
-                imageUrl: 'https://placehold.co/800x200/409CFF/FFFFFF?text=Day+1+Header+Image',
+                imagePath: './img/1.png', 
                 imageStyle: 'h-32', // Tailwindクラスで高さを指定
                 story: `
 「パティさん、ダンスの相手は決まったんですか？」
@@ -347,15 +346,15 @@
 
         // デモ/テスト用: 動作確認のため、常に12月10日として扱う（1日～10日が開けられる）
         // 実際に12月になったら下の行をコメントアウトしてください。
-        currentDay = 10;
+        currentDay = 1;
 
         // デモ用日付を画面に表示
         document.addEventListener('DOMContentLoaded', () => {
             const dateInfo = document.getElementById('date-info');
             if (currentDay > 0) {
-                dateInfo.textContent = `[デモ中: 12月${currentDay}日として動作しています]`;
+                dateInfo.textContent = `[12月${currentDay}日]`;
             } else {
-                dateInfo.textContent = `[デモ中: 12月ではないため全てロックされています]`;
+                dateInfo.textContent = `[12月ではないため全てロックされています]`;
             }
 
             // DOMContentLoaded時にカードを生成する
@@ -367,36 +366,51 @@
         function generateCalendarCards() {
             let cardsHtml = '';
 
+            // プレゼント箱アイコンのSVGパスを定義
+            // 閉じたプレゼント箱 (ロック状態) - Lucideのgiftアイコンを基に
+            const closedGiftSvg = `
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6m0 0h16M4 12v-2a2 2 0 012-2h12a2 2 0 012 2v2M12 4v16M9 4h6"/>
+                </svg>`;
+
             ADVENT_DATA.forEach(data => {
                 const day = data.day;
                 // 日付制限のチェック
                 const isLocked = day > currentDay;
 
-                // ロック状態に応じてクラスと属性を設定
+                // ロック状態に応じてクラスと属性、コメントを設定
                 const lockClasses = isLocked ? 'opacity-50 cursor-not-allowed grayscale shadow-none transform-none' : 'hover:shadow-red-400/50 transition duration-300 transform hover:-translate-y-1';
                 const lockedAttr = isLocked ? 'data-locked="true"' : 'data-locked="false"';
+                const statusComment = isLocked ? 'Wait!' : 'Open!';
 
                 // data-image-urlとdata-image-styleはデータ構造からそのまま取得
                 const imageStyleAttr = data.imageStyle ? `data-image-style="${data.imageStyle}"` : '';
                 const specialClasses = day === 'border-b-4 border-red-300';
 
+
+                // アイコンの選択ロジック
+                let iconHtml = '';
+                if (isLocked) {
+                    // ロックされている場合は閉じたプレゼント箱
+                    iconHtml = closedGiftSvg;
+                } else {
+                    // アンロックされている場合は開いたプレゼント箱
+                    iconHtml = "🎁";
+                }
+
                 cardsHtml += `
-                        <div class="day-card bg-white p-4 sm:p-6 rounded-xl shadow-xl ${specialClasses} ${lockClasses}"
-                            data-day="${day}"
-                            data-title="${data.title}"
-                            data-image-url="${data.imageUrl}"
-                            ${imageStyleAttr}
-                            ${lockedAttr}>
-                            
-                            <h3 class="text-4xl font-extrabold text-red-800 text-center mb-2 leading-none z-10">${day}</h3>
-                            <p class="text-xs ${'text-gray-500'} text-center mb-4 z-10">'Click to Open'</p>
-                            <!-- アイコン (飾り) -->
-                            <div class="flex justify-center text-amber-400 z-10">
-                             // 通常のアイコン
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    
-                            </div>
+                    <div class="day-card bg-white p-4 sm:p-6 rounded-xl shadow-xl ${specialClasses} ${lockClasses}"
+                    data-day="${day}"
+                    data-title="${data.title}"
+                    ${imageStyleAttr}
+                    ${lockedAttr}>
+                        <h3 class="text-4xl font-extrabold text-red-800 text-center mb-2 leading-none z-10">${day}</h3>
+                        <p class="text-xs text-gray-500 text-center mb-4 z-10">${statusComment}</p>
+                        <!-- アイコン (飾り) -->
+                        <div class="flex justify-center text-amber-400 z-10">
+                            ${iconHtml}
                         </div>
+                    </div>
                     `;
             });
 
@@ -434,7 +448,7 @@
 
                 // ロックチェック: ロックされている場合は処理を中断し、メッセージを表示
                 if (isLocked) {
-                    showMessage(`12月${day}日まではまだ開けられません。楽しみに待ちましょう！`);
+                    showMessage(`12月${day}日に開きます！`);
                     return;
                 }
 
@@ -450,7 +464,22 @@
                 const story = contentData.story;
                 const imageStyleData = contentData.imageStyle;
 
-                let imageUrl = contentData.imageUrl;
+                let imageUrl;
+                // NEW: 画像パスの決定ロジック
+                if (contentData.imagePath) {
+                    // imagePathが設定されている場合 (ローカル画像)
+                    imageUrl = contentData.imagePath;
+                } else {
+                    // imagePathがない場合 (placehold.coを使用)
+                    const imageWidth = contentData.imageWidth || 600;
+                    const imageHeight = contentData.imageHeight || 400;
+                    const imageBgColor = contentData.imageBgColor || '991B1B'; // Default Dark Red
+                    const imageTextColor = contentData.imageTextColor || 'FFFFFF'; // Default White
+                    const imageText = encodeURIComponent(contentData.imagePlaceholderText || `Day ${day} Placeholder`);
+
+                    imageUrl = `https://placehold.co/${imageWidth}x${imageHeight}/${imageBgColor}/${imageTextColor}?text=${imageText}`;
+                }
+
                 let imageClasses = 'w-full h-auto object-cover'; // デフォルトのクラス
 
                 // imageStyle属性が存在する場合、クラスを分離
